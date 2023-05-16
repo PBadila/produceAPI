@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 //Get produce by id
-router.get('/:id', async (req,res) => {
+router.get('id/:id', async (req,res) => {
     try {
         console.log(req.params.id)
         const produce = await Produce.findByPk(req.params.id)
@@ -28,6 +28,19 @@ router.get('/:id', async (req,res) => {
     }
 
     
+})
+
+//Get random produce
+router.get('/random', async (req,res) => {
+    try {
+        let num = await Produce.count()
+        console.log(num)
+        let i = Math.floor(Math.random() * num+1)
+        const produce = await Produce.findByPk(i)
+        res.json(produce)
+    } catch (error) {
+          res.status(500).json({ message: 'Error getting random produce', error });
+        }
 })
 
 // Create a new produce using the HealthFact model/class and the data provided in the request body
